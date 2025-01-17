@@ -42,4 +42,13 @@ public sealed class Result<TEntity>
 
         return new Result<TEntity>(default, errors);
     }
+
+    public void AddError(string error)
+    {
+        if (string.IsNullOrEmpty(error)){
+        throw new ArgumentNullException(nameof(error));
+        }
+        
+        _errors.Add(error);
+        }
 }
