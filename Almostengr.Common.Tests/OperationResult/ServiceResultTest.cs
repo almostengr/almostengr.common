@@ -2,16 +2,16 @@ using Almostengr.Common.OperationResult;
 
 namespace Almostengr.Common.Tests;
 
-public class ResultTest
+public class ServiceResultTest
 {
     [Fact]
     public void TestSuccess()
     {
         string testingEnttiy = "entity correct";
 
-        Result<string> result = Result<string>.Success(testingEnttiy);
+        ServiceResult<string> ServiceResult = ServiceResult<string>.Success(testingEnttiy);
 
-        Assert.Equal("entity correct", result.Entity);
+        Assert.Equal("entity correct", ServiceResult.Entity);
     }
 
     [Fact]
@@ -19,8 +19,8 @@ public class ResultTest
     {
         Exception exception = new Exception("I just threw an exception");
 
-        Result<string> result = Result<string>.Failure(exception);
+        ServiceResult<string> ServiceResult = ServiceResult<string>.Failure(exception);
 
-        Assert.Single(result.Errors);
+        Assert.Single(ServiceResult.Errors);
     }
 }
