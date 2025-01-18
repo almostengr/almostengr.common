@@ -1,6 +1,6 @@
 namespace Almostengr.Common.OperationResult;
 
-public sealed class Result<TEntity>
+public sealed class ServiceResult<TEntity>
 {
     private readonly List<string> _errors = new();
     public bool Succeeded => _errors.Count() == 0;
@@ -8,7 +8,7 @@ public sealed class Result<TEntity>
     public TEntity? Entity { get; }
     public IReadOnlyList<string> Errors => _errors.ToList();
 
-    private Result(TEntity? entity, IEnumerable<string> errors)
+    private ServiceResult(TEntity? entity, IEnumerable<string> errors)
     {
         _ = errors ?? throw new ArgumentNullException(nameof(errors));
 
@@ -16,31 +16,31 @@ public sealed class Result<TEntity>
         _errors.AddRange(errors);
     }
 
-    public static Result<TEntity> Success(TEntity entity)
+    public static ServiceResult<TEntity> Success(TEntity entity)
     {
-        return new Result<TEntity>(entity, []);
+        return new ServiceResult<TEntity>(entity, []);
     }
 
-    public static Result<TEntity> Failure(Exception exception)
+    public static ServiceResult<TEntity> Failure(Exception exception)
     {
-        return new Result<TEntity>(default, [exception.Message]);
+        return new ServiceResult<TEntity>(default, [exception.Message]);
     }
 
-    public static Result<TEntity> Failure(string error)
+    public static ServiceResult<TEntity> Failure(string error)
     {
         if (string.IsNullOrWhiteSpace(error))
         {
             throw new ArgumentNullException(nameof(error));
         }
 
-        return new Result<TEntity>(default, [error]);
+        return new ServiceResult<TEntity>(default, [error]);
     }
 
-    public static Result<TEntity> Failure(IEnumerable<string> errors)
+    public static ServiceResult<TEntity> Failure(IEnumerable<string> errors)
     {
         _ = errors ?? throw new ArgumentNullException(nameof(errors));
 
-        return new Result<TEntity>(default, errors);
+        return new ServiceResult<TEntity>(default, errors);
     }
 
     public void AddError(string error)
